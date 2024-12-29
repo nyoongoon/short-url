@@ -1,4 +1,9 @@
 spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: root #기본값
+    default-time: 5m #기본적인 캐싱타임
   h2:
     console:
       enabled: true
