@@ -22,18 +22,26 @@ import java.net.URL;
 @Component
 @RequiredArgsConstructor
 public class EncodeShortUrlGenerator implements ShortUrlGenerator {
+    private final RedisKeyGenerator redisKeyGenerator;
     private final ShortUrlRepository shortUrlRepository;
     private final Base62 base62;
 
     @Override
     public ShortUrl createShortUrl(URL oriUrl) {
-        ShortUrl shortUrl = ShortUrl.create();
-        shortUrlRepository.save(shortUrl);
-        Long id = shortUrl.getId();
+        Long id = redisKeyGenerator.generateKey("shortUrl:pk");
 
         String shortUrlKey = createShortUrlKey(id);
-        shortUrl.matchUrls(oriUrl, shortUrlKey);
+        ShortUrl shortUrl = ShortUrl.create(id, oriUrl, shortUrlKey);
+        shortUrlRepository.save(shortUrl);
         return shortUrl;
+
+//        ShortUrl shortUrl = ShortUrl.create();
+//        shortUrlRepository.save(shortUrl);
+//
+//        Long id = shortUrl.getId();
+//        String shortUrlKey = createShortUrlKey(id);
+//        shortUrl.matchUrls(oriUrl,shortUrlKey);
+//        return shortUrl;
     }
 
     public String createShortUrlKey(long id) {

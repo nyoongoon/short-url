@@ -49,10 +49,10 @@ public class ShortUrl {
     private long requestCnt;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private ShortUrl(URL oriUrl, String shortUrlKey, long requestCnt) {
+    private ShortUrl(Long id, URL oriUrl, String shortUrlKey, long requestCnt) {
 //        Assert.notNull(oriUrl, ORIGIN_URL_IS_REQUIRED);
 //        Assert.hasText(shortUrlKey, SHORT_URL_KEY_IS_REQUIRED);
-
+        this.id = id;
         this.oriUrl = oriUrl;
         this.shortUrlKey = shortUrlKey;
         this.requestCnt = requestCnt;
@@ -81,6 +81,19 @@ public class ShortUrl {
                 .build();
     }
 
+    public static ShortUrl create(
+        Long id,
+        URL oriUrl,
+        String shortUrlKey
+    ) {
+
+        return ShortUrl.builder()
+                .id(id)
+                .oriUrl(oriUrl)
+                .shortUrlKey(shortUrlKey)
+                .requestCnt(0L) //최초 생성 시 요청은 0
+                .build();
+    }
 
     public void matchUrls(URL oriUrl, String shortUrlKey){
         this.oriUrl = oriUrl;

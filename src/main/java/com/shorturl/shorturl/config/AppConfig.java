@@ -1,14 +1,13 @@
 package com.shorturl.shorturl.config;
 
 import com.shorturl.shorturl.domain.ShortUrlGenerator;
-import com.shorturl.shorturl.infrastructor.EncodeShortUrlGenerator;
 import com.shorturl.shorturl.infrastructor.RandomShortUrlGenerator;
+import com.shorturl.shorturl.infrastructor.RedisKeyGenerator;
 import com.shorturl.shorturl.repository.ShortUrlRepository;
 import com.shorturl.shorturl.util.encording.Base62;
 import com.shorturl.shorturl.util.randomGenerator.RandomNumberGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -23,6 +22,7 @@ import java.lang.annotation.Annotation;
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
+    private final RedisKeyGenerator redisKeyGenerator;
     private final RandomNumberGenerator randomNumberGenerator;
     private final ShortUrlRepository shortUrlRepository;
     private final Base62 base62;
@@ -44,6 +44,7 @@ public class AppConfig {
     @Bean
     public ShortUrlGenerator shortUrlGenerator(){
         return new RandomShortUrlGenerator(randomNumberGenerator, shortUrlRepository);
+//        return new EncodeShortUrlGenerator(redisKeyGenerator, shortUrlRepository, base62);
 //        return new EncodeShortUrlGenerator(shortUrlRepository, base62);
     }
 }

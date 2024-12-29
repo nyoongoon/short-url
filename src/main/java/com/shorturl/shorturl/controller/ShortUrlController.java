@@ -33,7 +33,7 @@ public class ShortUrlController {
 
     @PostMapping("short-url")
     public ShortUrlResponse transformShortUrl(@RequestBody @Valid ShortUrlRequest request) {
-        log.info("ShortUrlController#transformShortUrl");
+//        log.info("ShortUrlController#transformShortUrl :{}", request.getOriUrl());
         return shortUrlService.transformShortUrl(request);
     }
 

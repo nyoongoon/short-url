@@ -1,8 +1,8 @@
 config:
   target: 'http://localhost:8080'
   phases:
-    - duration: 180
-      arrivalRate: 400
+    - duration: 60
+      arrivalRate: 500
       name: create
   payload:
     path: "random_urls.csv"
