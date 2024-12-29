@@ -35,12 +35,14 @@ public class ShortUrl {
     @Column(name = "id")
     private Long id;
 
-    @NotNull(message = ORIGIN_URL_IS_REQUIRED)
-    @Column(name = "ori_url", nullable = false, unique = true)
+//    @NotNull(message = ORIGIN_URL_IS_REQUIRED)
+//    @Column(name = "ori_url", nullable = false, unique = true)
+    @Column(name = "ori_url", nullable = true, unique = true)
     private URL oriUrl;
 
-    @NotEmpty(message = SHORT_URL_KEY_IS_REQUIRED)
-    @Column(name = "short_url_key", nullable = false, unique = true)
+//    @NotEmpty(message = SHORT_URL_KEY_IS_REQUIRED)
+//    @Column(name = "short_url_key", nullable = false, unique = true)
+    @Column(name = "short_url_key", nullable = true, unique = true)
     private String shortUrlKey;
 
     @Column(name = "request_cnt", nullable = false)
@@ -48,8 +50,8 @@ public class ShortUrl {
 
     @Builder(access = AccessLevel.PRIVATE)
     private ShortUrl(URL oriUrl, String shortUrlKey, long requestCnt) {
-        Assert.notNull(oriUrl, ORIGIN_URL_IS_REQUIRED);
-        Assert.hasText(shortUrlKey, SHORT_URL_KEY_IS_REQUIRED);
+//        Assert.notNull(oriUrl, ORIGIN_URL_IS_REQUIRED);
+//        Assert.hasText(shortUrlKey, SHORT_URL_KEY_IS_REQUIRED);
 
         this.oriUrl = oriUrl;
         this.shortUrlKey = shortUrlKey;
@@ -66,6 +68,23 @@ public class ShortUrl {
                 .shortUrlKey(shortUrlKey)
                 .requestCnt(0L) //최초 생성 시 요청은 0
                 .build();
+    }
+
+    public static ShortUrl create(
+//            URL oriUrl
+    ) {
+
+        return ShortUrl.builder()
+                .oriUrl(null)
+                .shortUrlKey(null)
+                .requestCnt(0L) //최초 생성 시 요청은 0
+                .build();
+    }
+
+
+    public void matchUrls(URL oriUrl, String shortUrlKey){
+        this.oriUrl = oriUrl;
+        this.shortUrlKey = shortUrlKey;
     }
 
     public void increaseRequestCnt() {

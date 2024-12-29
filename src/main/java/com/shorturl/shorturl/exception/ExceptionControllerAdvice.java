@@ -16,8 +16,7 @@ import java.net.MalformedURLException;
 
 import static com.shorturl.shorturl.exception.ExceptionMessageConstants.INVALID_URL_FORM;
 import static com.shorturl.shorturl.exception.ExceptionMessageConstants.SERVER_ERROR;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.*;
 
 
 /**
@@ -77,6 +76,13 @@ public class ExceptionControllerAdvice {
     public ErrorResponse illegalStateException(IllegalStateException e) {
         log.error("IllegalStateException : {} ", e.getMessage());
         return ErrorResponse.error(INTERNAL_SERVER_ERROR, e.getMessage());
+    }
+
+    @ResponseStatus(SERVICE_UNAVAILABLE)
+    @ExceptionHandler(DuplicatedKeyException.class)
+    public ErrorResponse duplicatedKeyException(DuplicatedKeyException e) {
+        log.error("duplicatedKeyException : {} ", e.getMessage());
+        return ErrorResponse.error(SERVICE_UNAVAILABLE, e.getMessage());
     }
 
     @ResponseStatus(INTERNAL_SERVER_ERROR)

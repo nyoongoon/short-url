@@ -1,0 +1,17 @@
+config:
+  target: 'http://localhost:8080'
+  phases:
+    - duration: 180
+      arrivalRate: 400
+      name: create
+  payload:
+    path: "random_urls.csv"
+    fields:
+      - "oriUrl"
+scenarios:
+  - name: "create short url"
+    flow:
+      - post:
+          url: "/short-url"
+          json:
+            oriUrl: "{{ oriUrl }}"
